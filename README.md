@@ -6,6 +6,7 @@ A simple script in JS and [Puppeteer](https://github.com/puppeteer/puppeteer) th
 
 - install node.js
 - run `$ npm install` to install package dependencies from `package.json`
+- valid credentials and links in `config.json`
 - at least one free packing location
 - enough picked orders ready to be packed (at least the same number as `loops` value from `config.json`)
 

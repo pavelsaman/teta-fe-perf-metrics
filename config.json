@@ -7,13 +7,16 @@
     "loops": 1,
     "credentials": {
         "dev": {
-
+            "username": "",
+            "password": ""
         },
         "staging": {
-
+            "username": "",
+            "password": ""
         },
         "prod": {
-
+            "username": "",
+            "password": ""
         }        
     },
     "browserConfig": {
