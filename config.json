@@ -1,0 +1,28 @@
+{
+    "url": {
+        "dev": "",
+        "staging": "",
+        "prod": ""
+    },
+    "loops": 1,
+    "credentials": {
+        "dev": {
+
+        },
+        "staging": {
+
+        },
+        "prod": {
+
+        }        
+    },
+    "browserConfig": {
+        "headless": true,
+        "defaultViewport": null,
+        "devtools": false,
+        "args": [
+            "--start-maximized"
+        ]
+    },
+    "dbFile": "./metrics.db"
+}

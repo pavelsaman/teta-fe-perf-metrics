@@ -1,0 +1,23 @@
+{
+    "name": "teta-fe-perf-metrics",
+    "version": "1.0.0",
+    "description": "Teta FE performance metrics",
+    "main": "run.js",
+    "scripts": {},
+    "keywords": [
+        "teta",
+        "performance",
+        "frontend",
+        "packing app",
+        "packing",
+        "order"
+    ],
+    "author": "Pavel Saman",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "puppeteer": "^5.4.1",
+        "sqlite": "^4.0.17",
+        "sqlite3": "^5.0.0"
+    }
+}
