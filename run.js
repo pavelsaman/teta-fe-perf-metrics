@@ -116,44 +116,43 @@ const showMetrics = (metrics) => {
         await page.type(elements.email, config.credentials[env].username);
         await page.type(elements.password, config.credentials[env].password);
         await Promise.all([
-            page.click(elements.logIn),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })
+            page.waitForNavigation({ waitUntil: 'networkidle0' }),
+            page.click(elements.logIn)
         ]);
         metrics.push(await perfData(page));
         
         // packing
         await Promise.all([
-            page.click(elements.packing),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })
+            page.waitForNavigation({ waitUntil: 'networkidle0' }),
+            page.click(elements.packing)
         ]);
         metrics.push(await perfData(page));
 
         // choose first free packing location
         const freePackingLocation = await page.$$(elements.freeLocation);
         await Promise.all([
-            freePackingLocation[0].click(),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })
+            page.waitForNavigation({ waitUntil: 'networkidle0' }),
+            freePackingLocation[0].click()
         ]);
         metrics.push(await perfData(page));
 
         // choose first picked order
         const pickedOrders = await page.$$(elements.pickedOrder);
         await Promise.all([
-            pickedOrders[0].click(),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })
+            page.waitForNavigation({ waitUntil: 'networkidle0' }),
+            pickedOrders[0].click()
         ]);
         metrics.push(await perfData(page));
 
         // confirm order
         await Promise.all([
-            page.click(elements.confirmOrder),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })
+            page.waitForNavigation({ waitUntil: 'networkidle0' }),
+            page.click(elements.confirmOrder)
         ]);
         metrics.push(await perfData(page));
 
         // confirm 1 parcel
         await Promise.all([
-            page.click(elements.confirmParcels),
             page.waitForSelector(elements.parcelWeightInput),
             page.waitForSelector(elements.printLabel),
             page.waitForSelector(elements.finishPacking),
@@ -163,7 +162,8 @@ const showMetrics = (metrics) => {
                         .includes('/Packing/Parcels?action=Get')
                         && res.status() === 200;
                 }
-            )
+            ),
+            page.click(elements.confirmParcels)
         ]);
         metrics.push(await perfData(page));
 
@@ -172,7 +172,6 @@ const showMetrics = (metrics) => {
 
         // print labels
         await Promise.all([
-            page.click(elements.printLabel),
             page.waitForFunction(
                 selector => {
                     return document.querySelector(selector)
@@ -187,20 +186,21 @@ const showMetrics = (metrics) => {
                         .includes('/Packing/Parcels?handler=PrintParcelLabel')
                         && res.status() === 200;
                 }
-            )
+            ),
+            page.click(elements.printLabel)
         ]);
 
         // finish order
         await Promise.all([
-            page.click(elements.finishPacking),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })
+            page.waitForNavigation({ waitUntil: 'networkidle0' }),
+            page.click(elements.finishPacking)
         ]);
         metrics.push(await perfData(page));
 
         // log out
         await Promise.all([
-            page.click(elements.logOut),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })
+            page.waitForNavigation({ waitUntil: 'networkidle0' }),
+            page.click(elements.logOut)
         ]);
         metrics.push(await perfData(page));
 
