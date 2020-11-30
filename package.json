@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "description": "Teta FE performance metrics",
     "main": "run.js",
-    "scripts": {},
+    "scripts": {
+        "lint": "./node_modules/.bin/eslint *.js"
+    },
     "keywords": [
         "teta",
         "performance",
@@ -19,5 +21,8 @@
         "puppeteer": "^5.4.1",
         "sqlite": "^4.0.17",
         "sqlite3": "^5.0.0"
+    },
+    "devDependencies": {
+        "eslint": "^7.14.0"
     }
 }

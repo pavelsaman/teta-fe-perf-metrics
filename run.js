@@ -8,22 +8,26 @@ const sqlite = require('sqlite');
 const env = process.env.ENV;
 const url = config.url[env];
 const date = new Date();
+const MIN_WEIGHT = 100;
+const MAX_WEIGHT = 2000;
+const SUCCESS = 200;
 
-const perfData = async function (page) {
-    return await page.evaluate(
+const perfData = page => {
+    return page.evaluate(
         () => {
             const data = performance.getEntriesByType("navigation")[0].toJSON();
             const dnsDuration = data.domainLookupEnd - data.domainLookupStart;
+
             return {
-                url: data.name,
-                duration: data.duration,
+                url              : data.name,
+                duration         : data.duration,
                 dnsLookupDuration: dnsDuration,
-                transferSize: data.transferSize
+                transferSize     : data.transferSize
             };
         }
     );
 };
-const randInt = (min = 100, max = 2000) => {
+const randInt = (min = MIN_WEIGHT, max = MAX_WEIGHT) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
 };
 const asc = arr => arr.slice().sort((a, b) => a - b);
@@ -35,20 +39,19 @@ const quantile = (arr, q) => {
 
     if (sorted[base + 1] !== undefined)
         return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
-    else
-        return sorted[base];
+    return sorted[base];
 };
-const openDB = async function () {
-    return await sqlite.open({
+const openDB = () => {
+    return sqlite.open({
         filename: config.dbFile,
-        driver: sqlite3.Database
+        driver  : sqlite3.Database
     });
 };
-const saveMetrics = async (metrics, db) => {    
-    for (let m of metrics) {
+const saveMetrics = async (metrics, db) => {
+    for (const m of metrics) {
         await db.run(
-            'INSERT INTO Metrics (env, url, duration, dnsLookupDuration, \
-                transferSize, captured) VALUES (?, ?, ?, ?, ?, ?)',
+            'INSERT INTO Metrics (env, url, duration, dnsLookupDuration,'
+            + 'transferSize, captured) VALUES (?, ?, ?, ?, ?, ?)',
             env,
             m.url,
             m.duration,
@@ -58,7 +61,7 @@ const saveMetrics = async (metrics, db) => {
         );
     }
 };
-const showMetrics = (metrics) => {
+const showMetrics = metrics => {
     const durations = metrics.map(m => m.duration);
     const sumDurations = durations.reduce((a, b) => a + b, 0);
     const dnsLookupDurations = metrics.map(m => m.dnsLookupDuration);
@@ -102,7 +105,7 @@ const showMetrics = (metrics) => {
 };
 
 (async () => {
-    let metrics = [];
+    const metrics = [];
     const browser = await puppeteer.launch(config.browserConfig);
     const context = await browser.createIncognitoBrowserContext();
     const page = await context.newPage();
@@ -110,7 +113,7 @@ const showMetrics = (metrics) => {
     for (let i = 0; i < config.loops; i++) {
         // login page
         await page.goto(url);
-        metrics.push(await perfData(page));    
+        metrics.push(await perfData(page));
 
         // log in
         await page.type(elements.email, config.credentials[env].username);
@@ -120,7 +123,7 @@ const showMetrics = (metrics) => {
             page.click(elements.logIn)
         ]);
         metrics.push(await perfData(page));
-        
+
         // packing
         await Promise.all([
             page.waitForNavigation({ waitUntil: 'networkidle0' }),
@@ -160,7 +163,7 @@ const showMetrics = (metrics) => {
                 res => {
                     return res.url()
                         .includes('/Packing/Parcels?action=Get')
-                        && res.status() === 200;
+                        && res.status() === SUCCESS;
                 }
             ),
             page.click(elements.confirmParcels)
@@ -175,7 +178,7 @@ const showMetrics = (metrics) => {
             page.waitForFunction(
                 selector => {
                     return document.querySelector(selector)
-                        .getAttribute('disabled') != "disabled";
+                        .getAttribute('disabled') !== "disabled";
                 },
                 {},
                 elements.finishPacking
@@ -184,7 +187,7 @@ const showMetrics = (metrics) => {
                 res => {
                     return res.url()
                         .includes('/Packing/Parcels?handler=PrintParcelLabel')
-                        && res.status() === 200;
+                        && res.status() === SUCCESS;
                 }
             ),
             page.click(elements.printLabel)
