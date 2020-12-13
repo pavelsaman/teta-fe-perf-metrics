@@ -63,5 +63,4 @@ const selectors = Object.defineProperties(
     }
 );
 
-
 module.exports = selectors;
