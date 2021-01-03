@@ -48,15 +48,15 @@ const openDB = () => {
     });
 };
 const saveMetrics = async (metrics, db) => {
-    for (const m of metrics) {
+    for (const { url, duration, dnsLookupDuration, transferSize} of metrics) {
         await db.run(
             'INSERT INTO Metrics (env, url, duration, dnsLookupDuration,'
             + 'transferSize, captured) VALUES (?, ?, ?, ?, ?, ?)',
             env,
-            m.url,
-            m.duration,
-            m.dnsLookupDuration,
-            m.transferSize,
+            url,
+            duration,
+            dnsLookupDuration,
+            transferSize,
             date.toISOString()
         );
     }
