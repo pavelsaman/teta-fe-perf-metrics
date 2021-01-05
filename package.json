@@ -4,7 +4,8 @@
     "description": "Teta FE performance metrics",
     "main": "run.js",
     "scripts": {
-        "lint": "./node_modules/.bin/eslint *.js"
+        "lint": "./node_modules/.bin/eslint *.js",
+        "l": "npm run lint"
     },
     "keywords": [
         "teta",

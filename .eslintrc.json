@@ -5,12 +5,11 @@
         "mocha": true,
         "es6": true
     },
-    "ignorePatterns": [
-        
+    "ignorePatterns": [        
     ],
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": 12,
+        "ecmaVersion": 11,
         "sourceType": "module"
     },
     "rules": {    
@@ -53,7 +52,7 @@
             "error",
             {
                 "ignoreArrayIndexes": true,
-                "ignore": [0.50, 0.75, 0.80, 0.90, 0, 1]
+                "ignore": [0, 1]
             }
         ],
         "no-iterator": "error",
@@ -85,6 +84,7 @@
         "prefer-regex-literals": "warn",
         "no-return-assign": ["error", "always"],
         "no-new-wrappers": "error",
+        "no-array-constructor": "error",
         "wrap-iife": ["error", "inside"],
         "radix": "error",
         "require-await": "error",
@@ -121,7 +121,7 @@
             { 
                 "code": 80,
                 "tabWidth": 4,
-                "comments": 70,
+                "comments": 80,
                 "ignoreTrailingComments": false,
                 "ignoreUrls": false,
                 "ignoreStrings": false,
@@ -136,6 +136,14 @@
                 "max": 300,
                 "skipBlankLines": true,
                 "skipComments": true
+            }
+        ],
+        "max-lines-per-function": [
+            "warn",
+            {
+                "max": 20,
+                "skipComments": true,
+                "skipBlankLines": true
             }
         ],
         "max-nested-callbacks": ["warn", 2],
@@ -161,8 +169,8 @@
         ],
         "object-curly-spacing": ["warn", "always"],
         "no-whitespace-before-property": "warn",
-        "nonblock-statement-body-position": ["error", "below"],
-        "semi": ["warn", "always"],
+        "nonblock-statement-body-position": ["error", "any"],
+        "semi": ["error", "always"],
         "semi-spacing": ["error", { "before": false, "after": true }],
         "semi-style": ["error", "last"],
         "generator-star-spacing": ["error", { "before": true, "after": false }],
@@ -247,7 +255,7 @@
         "one-var-declaration-per-line": ["error", "initializations"],
         "operator-linebreak": ["warn", "before"],
         "prefer-exponentiation-operator": "warn",
-        "quote-props": ["warn", "consistent"],
+        "quote-props": ["warn", "as-needed"],
         "space-before-blocks": ["warn", "always"],
         "space-before-function-paren": ["warn", "always"],
         "space-in-parens": ["warn", "never"],
@@ -257,6 +265,28 @@
         "switch-colon-spacing": ["warn", {"after": true, "before": false}],
         "template-tag-spacing": ["warn", "always"],
         "wrap-regex": "error",
-        "no-nested-ternary": "warn"
+        "no-nested-ternary": "warn",
+        "object-shorthand": [
+            "warn",
+            "always",
+            {
+                "avoidExplicitReturnArrows": true
+            }
+        ],
+        "no-prototype-builtins": "error",
+        "prefer-object-spread": "error",
+        "no-restricted-globals": [
+            "error",
+            {
+                "name": "isNaN",
+                "message": "Global isNaN coerces non-numbers to numbers. Use Number.isNaN instead."
+            },
+            {
+                "name": "isFinite",
+                "message": "Global isFinite coerces non-numbers to numbers. Use Number.isFinite instead."
+            }
+        ],
+        "prefer-arrow-callback": "warn",
+        "prefer-destructuring": "warn"
     }
 }

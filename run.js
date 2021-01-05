@@ -6,7 +6,7 @@ const sqlite3 = require('sqlite3');
 const sqlite = require('sqlite');
 
 const env = process.env.ENV;
-const url = config.url[env];
+const baseUrl = config.url[env];
 const date = new Date();
 const MIN_WEIGHT = 100;
 const MAX_WEIGHT = 2000;
@@ -48,7 +48,7 @@ const openDB = () => {
     });
 };
 const saveMetrics = async (metrics, db) => {
-    for (const { url, duration, dnsLookupDuration, transferSize} of metrics) {
+    for (const { url, duration, dnsLookupDuration, transferSize } of metrics) {
         await db.run(
             'INSERT INTO Metrics (env, url, duration, dnsLookupDuration,'
             + 'transferSize, captured) VALUES (?, ?, ?, ?, ?, ?)',
@@ -61,6 +61,7 @@ const saveMetrics = async (metrics, db) => {
         );
     }
 };
+/* eslint-disable max-lines-per-function, no-magic-numbers */
 const showMetrics = metrics => {
     const durations = metrics.map(m => m.duration);
     const sumDurations = durations.reduce((a, b) => a + b, 0);
@@ -112,7 +113,7 @@ const showMetrics = metrics => {
 
     for (let i = 0; i < config.loops; i++) {
         // login page
-        await page.goto(url);
+        await page.goto(baseUrl);
         metrics.push(await perfData(page));
 
         // log in
