@@ -104,6 +104,7 @@ const showMetrics = metrics => {
 
     console.log("\n(All time values are in ms, transfer size is in octets.)");
 };
+/* eslint-enable max-lines-per-function, no-magic-numbers */
 
 (async () => {
     const metrics = [];
